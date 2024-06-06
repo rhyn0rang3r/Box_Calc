@@ -7,7 +7,7 @@ class Program
     {
         bool endApp = false;
         // Display title as the C# console calculator app.
-        Console.WriteLine("Console Calculator in C#\r");
+        Console.WriteLine("Sq Ft and best Fanfold\r");
         Console.WriteLine("------------------------\n");
 
         while (!endApp)
@@ -103,15 +103,6 @@ class Program
 
             }
 
-            // Convert from inches to feet
-            double ConvertFromInchestToFeet(double numberToConvert)
-            {
-                var poop = numberToConvert / 12;
-                return poop;
-            }
-            double convertedNum1 = ConvertFromInchestToFeet(cleanNum1);
-            double convertedNum2 = ConvertFromInchestToFeet(cleanNum2);
-            double convertedNum3 = ConvertFromInchestToFeet(cleanNum3);
 
 
             // Validate input is not null, and matches the pattern
@@ -124,8 +115,9 @@ class Program
                 try
                 {
                     result = Calculator.CalculateSqFt(cleanNum1, cleanNum2, cleanNum3, op);
-                    c = Calculator.BestSingleWall(cleanNum1, cleanNum2, cleanNum3, op);
-                    bc = Calculator.BestDoubleWall(cleanNum1, cleanNum2, cleanNum3, op);
+                    var rscvalue = Calculator.CalculateFanfoldDimensions(cleanNum1, cleanNum2);
+                    c = Calculator.MostEfficentFanfold(rscvalue, "Single");
+                    bc = Calculator.MostEfficentFanfold(rscvalue, "Double");
                     if (double.IsNaN(result))
                     {
                         Console.WriteLine("This operation will result in a mathematical error.\n");
@@ -217,6 +209,10 @@ class Calculator
                 if (num2 != 0)
                 {
                     result = (lidheight * lidlength);
+                    singlewall.ForEach(y => y = lidheight / y);
+                    doublewall.ForEach(x => x = lidheight / x);
+                    c = singlewall.Min();
+                    bc = doublewall.Min();
                 }
                 break;
             // Return text for an incorrect option entry.
@@ -281,6 +277,10 @@ class Calculator
                 if (num2 != 0)
                 {
                     result = (lidheight * lidlength);
+                    singlewall.ForEach(y => y = lidlength / y);
+                    doublewall.ForEach(x => x = lidlength / x);
+                    c = singlewall.Min();
+                    bc = doublewall.Min();
                 }
                 break;
             // Return text for an incorrect option entry.
@@ -354,6 +354,105 @@ class Calculator
         }
         return bc;
 
+    }
+
+    public static double MostEfficentFanfold(double num1, double num2, double num3, string op)
+    {
+        double flap = 3;
+        double rscwidth = (num3 + (flap * 2)) / 12;
+        double hscwidth = (num3 + flap) / 12;
+        double lidheight = (num2 + (num3 * 2)) / 12;
+        double c = 0;
+        double bc = 0;
+        var singlewall = new List<double>();
+        singlewall.Add(70.625);
+        singlewall.Add(51.625);
+        singlewall.Add(79.125);
+        singlewall.Add(31.125);
+        var doublewall = new List<double>();
+        doublewall.Add(75.25);
+        doublewall.Add(61.375);
+        doublewall.Add(52.625);
+        doublewall.Add(40.625);
+
+        // Use a switch statement to do the math.
+        switch (op)
+        {
+            //Pad
+            case "a":
+                if (string.Equals(typeofWall, ))
+                result = (num1 / 12) * (num2 / 12);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //HSC
+            case "s":
+                result = (rsclength * hscwidth);
+                singlewall.ForEach(y => y = hscwidth / y);
+                doublewall.ForEach(x => x = hscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //RSC
+            case "m":
+                result = (rsclength * rscwidth);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //Lid
+            case "d":
+                // Ask the user to enter a non-zero divisor.
+                if (num2 != 0)
+                {
+                    result = (lidheight * lidlength);
+                }
+                break;
+            // Return text for an incorrect option entry.
+            default:
+                break;
+        }
+        return bc;
+
+    }
+
+    public static double CalculateFanfoldDimensions(double num1 ,double num2, double num3, string op)
+    {
+        double result = 0;
+        double glueflap = 2.2;
+        double flap = 3;
+        double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
+        double rscwidth = (num3 + (flap * 2)) / 12;
+        double hscwidth = (num3 + flap) / 12;
+        double lidheight = (num2 + (num3 * 2)) / 12;
+
+        // Use a switch statement to do the math.
+        switch (op)
+        {
+            //HSC
+            case "s":
+                result = (rsclength * hscwidth);
+                break;
+            //RSC
+            case "m":
+                result = (rsclength * rscwidth);
+                break;
+            //Lid
+            case "d":
+                // Ask the user to enter a non-zero divisor.
+                if (num2 != 0)
+                {
+                    result = (lidheight * lidheight);
+                }
+                break;
+            // Return text for an incorrect option entry.
+            default:
+                break;
+        }
+        return ;
     }
 }
 
