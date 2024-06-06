@@ -27,7 +27,7 @@ class Program
             Console.WriteLine("\ts - HSC");
             Console.WriteLine("\tm - RSC");
             Console.WriteLine("\td - Lid");
-            Console.Write("Your option? ");
+            Console.Write("Your Option?:");
 
             string? op = Console.ReadLine();
 
@@ -36,14 +36,14 @@ class Program
             double cleanNum3 = 0;
 
 
-            if (Console.ReadLine() == ("a"))
+            if (op == "a")
             {
 
                 // Ask the user to type the Length.
                 Console.Write("Type Length, and then press Enter: ");
                 numInput1 = Console.ReadLine();
 
-                
+
                 while (!double.TryParse(numInput1, out cleanNum1))
                 {
                     Console.Write("This is not valid input. Please enter a numeric value: ");
@@ -54,7 +54,7 @@ class Program
                 Console.Write("Type Width, and then press Enter: ");
                 numInput2 = Console.ReadLine();
 
-               
+
                 while (!double.TryParse(numInput2, out cleanNum2))
                 {
                     Console.Write("This is not valid input. Please enter a numeric value: ");
@@ -63,7 +63,7 @@ class Program
 
             }
 
-            else if (Console.ReadLine() == "d")
+            else if (op == "d")
             {
 
                 // Ask the user to type the Length.
@@ -128,12 +128,12 @@ class Program
             {
                 try
                 {
-                    result = Calculator.DoOperation(convertedNum1, convertedNum2, convertedNum3, op);
+                    result = Calculator.DoOperation(cleanNum1, cleanNum2, cleanNum3, op);
                     if (double.IsNaN(result))
                     {
                         Console.WriteLine("This operation will result in a mathematical error.\n");
                     }
-                    else Console.WriteLine("Your result: {0:0.##}\n", result);
+                    else Console.WriteLine("Your result: {0:0.##} sq.ft\n", result);
                 }
                 catch (Exception e)
                 {
@@ -161,8 +161,11 @@ class Calculator
     {
         double glueflap = 2.2;
         double flap = 3;
-        double rsclength = (num1 * 2) + (num2 * 2) + glueflap;
-        double rscwidth = num3 * (flap * 2);
+        double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
+        double rscwidth = (num3 + (flap * 2)) / 12;
+        double hscwidth = (num3 + flap) / 12;
+        double lidlength = (num1 + (num3 * 2)) / 12;
+        double lidheight = (num2 + (num3 * 2)) / 12;
         double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
 
         // Use a switch statement to do the math.
@@ -170,22 +173,22 @@ class Calculator
         {
             //Pad
             case "a":
-                result = num1 * num2;
+                result = (num1 / 12) * (num2 / 12);
                 break;
             //HSC
             case "s":
-                result = num1 - num2 - num3;
+                result = (rsclength * hscwidth);
                 break;
             //RSC
             case "m":
-                result = (rsclength * rscwidth) / 12;
+                result = (rsclength * rscwidth);
                 break;
             //Lid
             case "d":
                 // Ask the user to enter a non-zero divisor.
                 if (num2 != 0)
                 {
-                    result = num1 / num2;
+                    result = (lidheight * lidlength);
                 }
                 break;
             // Return text for an incorrect option entry.
