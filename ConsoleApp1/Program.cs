@@ -164,7 +164,7 @@ class Calculator
 
     {
         double glueflap = 2.2;
-        double flap = 3;
+        double flap = (num3 * .5);
         double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
         double rscwidth = (num3 + (flap * 2)) / 12;
         double hscwidth = (num3 + flap) / 12;
@@ -190,16 +190,16 @@ class Calculator
             //Pad
             case "a":
                 result = (num1 / 12) * (num2 / 12);
-                singlewall.ForEach(y => y = rscwidth / y);
-                doublewall.ForEach(x => x = rscwidth / x);
+                singlewall.ForEach(y => y = (rscwidth * 12) / y);
+                doublewall.ForEach(x => x = (rscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
             //HSC
             case "s":
                 result = (rsclength * hscwidth);
-                singlewall.ForEach(y => y = hscwidth / y);
-                doublewall.ForEach(x => x = hscwidth / x);
+                singlewall.ForEach(y => y = (hscwidth * 12) / y);
+                doublewall.ForEach(x => x = (hscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
@@ -228,7 +228,7 @@ class Calculator
     public static double BestSingleWall(double num1, double num2, double num3, string op)
     {
         double glueflap = 2.2;
-        double flap = 3;
+        double flap = (num3 * .5);
         double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
         double rscwidth = (num3 + (flap * 2)) / 12;
         double hscwidth = (num3 + flap) / 12;
@@ -254,24 +254,24 @@ class Calculator
             //Pad
             case "a":
                 result = (num1 / 12) * (num2 / 12);
-                singlewall.ForEach(y => y = rscwidth / y);
-                doublewall.ForEach(x => x = rscwidth / x);
+                singlewall.ForEach(y => y = (rscwidth * 12) / y);
+                doublewall.ForEach(x => x = (rscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
             //HSC
             case "s":
                 result = (rsclength * hscwidth);
-                singlewall.ForEach(y => y = hscwidth / y);
-                doublewall.ForEach(x => x = hscwidth / x);
+                singlewall.ForEach(y => y = (hscwidth * 12) / y);
+                doublewall.ForEach(x => x = (hscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
             //RSC
             case "m":
                 result = (rsclength * rscwidth);
-                singlewall.ForEach(y => y = rscwidth / y);
-                doublewall.ForEach(x => x = rscwidth / x);
+                singlewall.ForEach(y => y = (rscwidth * 12) / y);
+                doublewall.ForEach(x => x = (rscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
@@ -293,7 +293,7 @@ class Calculator
     public static double BestDoubleWall(double num1, double num2, double num3, string op)
     {
         double glueflap = 2.2;
-        double flap = 3;
+        double flap = (num3 * .5);
         double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
         double rscwidth = (num3 + (flap * 2)) / 12;
         double hscwidth = (num3 + flap) / 12;
@@ -319,24 +319,24 @@ class Calculator
             //Pad
             case "a":
                 result = (num1 / 12) * (num2 / 12);
-                singlewall.ForEach(y => y = rscwidth / y);
-                doublewall.ForEach(x => x = rscwidth / x);
+                singlewall.ForEach(y => y = (rscwidth * 12) / y);
+                doublewall.ForEach(x => x = (rscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
             //HSC
             case "s":
                 result = (rsclength * hscwidth);
-                singlewall.ForEach(y => y = hscwidth / y);
-                doublewall.ForEach(x => x = hscwidth / x);
+                singlewall.ForEach(y => y = (hscwidth * 12) / y);
+                doublewall.ForEach(x => x = (hscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
             //RSC
             case "m":
                 result = (rsclength * rscwidth);
-                singlewall.ForEach(y => y = rscwidth / y);
-                doublewall.ForEach(x => x = rscwidth / x);
+                singlewall.ForEach(y => y = (rscwidth * 12) / y);
+                doublewall.ForEach(x => x = (rscwidth * 12) / x);
                 c = singlewall.Min();
                 bc = doublewall.Min();
                 break;
