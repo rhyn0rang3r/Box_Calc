@@ -19,8 +19,12 @@ class Program
             string? numInput3 = "Height";
             double result = 0;
 
+            double cleanNum1 = 0;
+            double cleanNum2 = 0;
+            double cleanNum3 = 0;
 
-            
+
+
             // Ask the user to choose an operator.
             Console.WriteLine("Choose an operator from the following list:");
             Console.WriteLine("\ta - Pad");
@@ -31,9 +35,6 @@ class Program
 
             string? op = Console.ReadLine();
 
-            double cleanNum1 = 0;
-            double cleanNum2 = 0;
-            double cleanNum3 = 0;
 
 
             if (op == "a")
