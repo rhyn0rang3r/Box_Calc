@@ -18,7 +18,8 @@ class Program
             string? numInput2 = "Width";
             string? numInput3 = "Height";
             double result = 0;
-
+            double c = 0;
+            double bc = 0;
             double cleanNum1 = 0;
             double cleanNum2 = 0;
             double cleanNum3 = 0;
@@ -64,7 +65,7 @@ class Program
 
             }
 
-            else if (op == "d")
+            else if (op == "d" || op == "m" || op == "s")
             {
 
                 // Ask the user to type the Length.
@@ -112,13 +113,6 @@ class Program
             double convertedNum2 = ConvertFromInchestToFeet(cleanNum2);
             double convertedNum3 = ConvertFromInchestToFeet(cleanNum3);
 
-          
-            
-
-
-
-
-
 
             // Validate input is not null, and matches the pattern
             if (op == null || !Regex.IsMatch(op, "[a|s|m|d]"))
@@ -129,12 +123,21 @@ class Program
             {
                 try
                 {
-                    result = Calculator.DoOperation(cleanNum1, cleanNum2, cleanNum3, op);
+                    result = Calculator.CalculateSqFt(cleanNum1, cleanNum2, cleanNum3, op);
+                    c = Calculator.BestSingleWall(cleanNum1, cleanNum2, cleanNum3, op);
+                    bc = Calculator.BestDoubleWall(cleanNum1, cleanNum2, cleanNum3, op);
                     if (double.IsNaN(result))
                     {
                         Console.WriteLine("This operation will result in a mathematical error.\n");
                     }
-                    else Console.WriteLine("Your result: {0:0.##} sq.ft\n", result);
+                    else
+                    {
+                        Console.WriteLine("Your result: {0:0.##} sq.ft\n", result);
+                        Console.WriteLine("Most efficent FanFold: C {0:0.###}", c);
+                        Console.WriteLine("Most efficent Fanfold: BC {0:0.###}", bc);
+
+                    }
+                    
                 }
                 catch (Exception e)
                 {
@@ -156,7 +159,7 @@ class Program
 class Calculator
 {
 
-    public static double DoOperation(double num1, double num2, double num3, string op)
+    public static double CalculateSqFt(double num1, double num2, double num3, string op)
 
 
     {
@@ -167,7 +170,19 @@ class Calculator
         double hscwidth = (num3 + flap) / 12;
         double lidlength = (num1 + (num3 * 2)) / 12;
         double lidheight = (num2 + (num3 * 2)) / 12;
+        double c = 0;
+        double bc = 0;
         double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
+        var singlewall = new List<double>();
+        var doublewall = new List<double>();
+        singlewall.Add(70.625);
+        singlewall.Add(51.625);
+        singlewall.Add(79.125);
+        singlewall.Add(31.125);
+        doublewall.Add(75.25);
+        doublewall.Add(61.375);
+        doublewall.Add(52.625);
+        doublewall.Add(40.625);
 
         // Use a switch statement to do the math.
         switch (op)
@@ -175,14 +190,26 @@ class Calculator
             //Pad
             case "a":
                 result = (num1 / 12) * (num2 / 12);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
                 break;
             //HSC
             case "s":
                 result = (rsclength * hscwidth);
+                singlewall.ForEach(y => y = hscwidth / y);
+                doublewall.ForEach(x => x = hscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
                 break;
             //RSC
             case "m":
                 result = (rsclength * rscwidth);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
                 break;
             //Lid
             case "d":
@@ -198,4 +225,135 @@ class Calculator
         }
         return result;
     }
+    public static double BestSingleWall(double num1, double num2, double num3, string op)
+    {
+        double glueflap = 2.2;
+        double flap = 3;
+        double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
+        double rscwidth = (num3 + (flap * 2)) / 12;
+        double hscwidth = (num3 + flap) / 12;
+        double lidlength = (num1 + (num3 * 2)) / 12;
+        double lidheight = (num2 + (num3 * 2)) / 12;
+        double c = 0;
+        double bc = 0;
+        double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
+        var singlewall = new List<double>();
+        var doublewall = new List<double>();
+        singlewall.Add(70.625);
+        singlewall.Add(51.625);
+        singlewall.Add(79.125);
+        singlewall.Add(31.125);
+        doublewall.Add(75.25);
+        doublewall.Add(61.375);
+        doublewall.Add(52.625);
+        doublewall.Add(40.625);
+
+        // Use a switch statement to do the math.
+        switch (op)
+        {
+            //Pad
+            case "a":
+                result = (num1 / 12) * (num2 / 12);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //HSC
+            case "s":
+                result = (rsclength * hscwidth);
+                singlewall.ForEach(y => y = hscwidth / y);
+                doublewall.ForEach(x => x = hscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //RSC
+            case "m":
+                result = (rsclength * rscwidth);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //Lid
+            case "d":
+                // Ask the user to enter a non-zero divisor.
+                if (num2 != 0)
+                {
+                    result = (lidheight * lidlength);
+                }
+                break;
+            // Return text for an incorrect option entry.
+            default:
+                break;
+        }
+        return c;
+
+    }
+    public static double BestDoubleWall(double num1, double num2, double num3, string op)
+    {
+        double glueflap = 2.2;
+        double flap = 3;
+        double rsclength = ((num1 * 2) + (num2 * 2) + glueflap) / 12;
+        double rscwidth = (num3 + (flap * 2)) / 12;
+        double hscwidth = (num3 + flap) / 12;
+        double lidlength = (num1 + (num3 * 2)) / 12;
+        double lidheight = (num2 + (num3 * 2)) / 12;
+        double c = 0;
+        double bc = 0;
+        double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
+        var singlewall = new List<double>();
+        var doublewall = new List<double>();
+        singlewall.Add(70.625);
+        singlewall.Add(51.625);
+        singlewall.Add(79.125);
+        singlewall.Add(31.125);
+        doublewall.Add(75.25);
+        doublewall.Add(61.375);
+        doublewall.Add(52.625);
+        doublewall.Add(40.625);
+
+        // Use a switch statement to do the math.
+        switch (op)
+        {
+            //Pad
+            case "a":
+                result = (num1 / 12) * (num2 / 12);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //HSC
+            case "s":
+                result = (rsclength * hscwidth);
+                singlewall.ForEach(y => y = hscwidth / y);
+                doublewall.ForEach(x => x = hscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //RSC
+            case "m":
+                result = (rsclength * rscwidth);
+                singlewall.ForEach(y => y = rscwidth / y);
+                doublewall.ForEach(x => x = rscwidth / x);
+                c = singlewall.Min();
+                bc = doublewall.Min();
+                break;
+            //Lid
+            case "d":
+                // Ask the user to enter a non-zero divisor.
+                if (num2 != 0)
+                {
+                    result = (lidheight * lidlength);
+                }
+                break;
+            // Return text for an incorrect option entry.
+            default:
+                break;
+        }
+        return bc;
+
+    }
 }
+
